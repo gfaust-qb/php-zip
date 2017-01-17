@@ -1,6 +1,6 @@
 <?php
-require 'ZipTestCase.php';
 namespace PhpZip;
+require 'ZipTestCase.php';
 
 use PhpZip\Exception\ZipAuthenticationException;
 use PhpZip\Model\ZipEntry;
