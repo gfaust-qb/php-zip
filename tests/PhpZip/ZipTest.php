@@ -168,7 +168,7 @@ class ZipTest extends ZipTestCase
         $recursive = false;
 
         $outputZipFile = new ZipOutputFile();
-        $ignoreFiles = ['tests/', '.git/', 'composer.lock', 'vendor/', ".idea/"];
+        $ignoreFiles = array('tests/', '.git/', 'composer.lock', 'vendor/', ".idea/");
         $moveToPath = 'PhpZip Library';
         $outputZipFile->addDir($inputDir, $recursive, $moveToPath, $ignoreFiles);
         $outputZipFile->saveAsFile($this->outputFilename);
@@ -187,7 +187,7 @@ class ZipTest extends ZipTestCase
         $recursive = true;
 
         $outputZipFile = new ZipOutputFile();
-        $ignoreFiles = ['tests/', '.git/', 'composer.lock', 'vendor/', ".idea/copyright/"];
+        $ignoreFiles = array('tests/', '.git/', 'composer.lock', 'vendor/', ".idea/copyright/");
         $moveToPath = 'PhpZip Library';
         $outputZipFile->addDir($inputDir, $recursive, $moveToPath, $ignoreFiles);
         $outputZipFile->saveAsFile($this->outputFilename);
@@ -462,32 +462,32 @@ class ZipTest extends ZipTestCase
      */
     public function testEntryComment()
     {
-        $entries = [
-            '文件1.txt' => [
+        $entries = array(
+            '文件1.txt' => array(
                 'data' => CryptoUtil::randomBytes(255),
                 'comment' => "這是註釋的條目。",
-            ],
-            'file2.txt' => [
+            ),
+            'file2.txt' => array(
                 'data' => CryptoUtil::randomBytes(255),
                 'comment' => null
-            ],
-            'file3.txt' => [
+            ),
+            'file3.txt' => array(
                 'data' => CryptoUtil::randomBytes(255),
                 'comment' => CryptoUtil::randomBytes(255),
-            ],
-            'file4.txt' => [
+            ),
+            'file4.txt' => array(
                 'data' => CryptoUtil::randomBytes(255),
                 'comment' => "Комментарий файла"
-            ],
-            'file5.txt' => [
+            ),
+            'file5.txt' => array(
                 'data' => CryptoUtil::randomBytes(255),
                 'comment' => "ไฟล์แสดงความคิดเห็น"
-            ],
-            'file6 emoji 🙍🏼.txt' => [
+            ),
+            'file6 emoji 🙍🏼.txt' => array(
                 'data' => CryptoUtil::randomBytes(255),
                 'comment' => "Emoji comment file - 😀 ⛈ ❤️ 🤴🏽"
-            ],
-        ];
+            ),
+        );
 
         $outputZipFile = new ZipOutputFile();
         foreach ($entries as $entryName => $item) {
@@ -541,21 +541,21 @@ class ZipTest extends ZipTestCase
      */
     public function testCompressionMethod()
     {
-        $entries = [
-            '1' => [
+        $entries = array(
+            '1' => array(
                 'data' => CryptoUtil::randomBytes(255),
                 'method' => ZipEntry::METHOD_STORED,
-            ],
-            '2' => [
+            ),
+            '2' => array(
                 'data' => CryptoUtil::randomBytes(255),
                 'method' => ZipEntry::METHOD_DEFLATED,
-            ],
-        ];
+            ),
+        );
         if (extension_loaded("bz2")) {
-            $entries['3'] = [
+            $entries['3'] = array(
                 'data' => CryptoUtil::randomBytes(255),
                 'method' => ZipEntry::METHOD_BZIP2,
-            ];
+            );
         }
 
         $outputZipFile = new ZipOutputFile();
@@ -607,12 +607,12 @@ class ZipTest extends ZipTestCase
      */
     public function testExtract()
     {
-        $entries = [
+        $entries = array(
             'test1.txt' => CryptoUtil::randomBytes(255),
             'test2.txt' => CryptoUtil::randomBytes(255),
             'test/test 2/test3.txt' => CryptoUtil::randomBytes(255),
             'test empty/dir' => null,
-        ];
+        );
 
         $outputFolderInput = sys_get_temp_dir() . '/zipExtract' . uniqid();
         if (!is_dir($outputFolderInput)) {
@@ -671,7 +671,7 @@ class ZipTest extends ZipTestCase
      */
     public function testExtractSomeFiles()
     {
-        $entries = [
+        $entries = array(
             'test1.txt' => CryptoUtil::randomBytes(255),
             'test2.txt' => CryptoUtil::randomBytes(255),
             'test3.txt' => CryptoUtil::randomBytes(255),
@@ -681,9 +681,9 @@ class ZipTest extends ZipTestCase
             'test/test/test 2.txt' => CryptoUtil::randomBytes(255),
             'test empty/dir/' => null,
             'test empty/dir2/' => null,
-        ];
+        );
 
-        $extractEntries = ['test1.txt', 'test3.txt', 'test5.txt', 'test/test/test 2.txt', 'test empty/dir2/'];
+        $extractEntries = array('test1.txt', 'test3.txt', 'test5.txt', 'test/test/test 2.txt', 'test empty/dir2/');
 
         $outputFolderInput = sys_get_temp_dir() . '/zipExtract' . uniqid();
         if (!is_dir($outputFolderInput)) {
@@ -841,26 +841,26 @@ class ZipTest extends ZipTestCase
      */
     public function testSetPasswordToSomeEntries()
     {
-        $entries = [
-            'Traditional PKWARE Encryption Test.dat' => [
+        $entries = array(
+            'Traditional PKWARE Encryption Test.dat' => array(
                 'data' => CryptoUtil::randomBytes(255),
                 'password' => CryptoUtil::randomBytes(255),
                 'encryption_method' => ZipEntry::ENCRYPTION_METHOD_TRADITIONAL,
                 'compression_method' => ZipEntry::METHOD_DEFLATED,
-            ],
-            'WinZip AES Encryption Test.dat' => [
+            ),
+            'WinZip AES Encryption Test.dat' => array(
                 'data' => CryptoUtil::randomBytes(255),
                 'password' => CryptoUtil::randomBytes(255),
                 'encryption_method' => ZipEntry::ENCRYPTION_METHOD_WINZIP_AES,
                 'compression_method' => extension_loaded("bz2") ? ZipEntry::METHOD_BZIP2 : ZipEntry::METHOD_STORED,
-            ],
-            'Not password.dat' => [
+            ),
+            'Not password.dat' => array(
                 'data' => CryptoUtil::randomBytes(255),
                 'password' => null,
                 'encryption_method' => ZipEntry::ENCRYPTION_METHOD_TRADITIONAL,
                 'compression_method' => ZipEntry::METHOD_STORED,
-            ],
-        ];
+            ),
+        );
 
         $outputZip = ZipOutputFile::create();
         foreach ($entries as $entryName => $item) {
@@ -900,13 +900,13 @@ class ZipTest extends ZipTestCase
      */
     public function testZipFileArrayAccessAndCountableAndIterator()
     {
-        $files = [];
+        $files = array();
         $numFiles = mt_rand(20, 100);
         for ($i = 0; $i < $numFiles; $i++) {
             $files['file' . $i . '.txt'] = CryptoUtil::randomBytes(255);
         }
 
-        $methods = [ZipEntry::METHOD_STORED, ZipEntry::METHOD_DEFLATED];
+        $methods = array(ZipEntry::METHOD_STORED, ZipEntry::METHOD_DEFLATED);
         if (extension_loaded("bz2")) {
             $methods[] = ZipEntry::METHOD_BZIP2;
         }
@@ -957,13 +957,13 @@ class ZipTest extends ZipTestCase
      */
     public function testZipOutputFileArrayAccessAndCountableAndIterator()
     {
-        $files = [];
+        $files = array();
         $numFiles = mt_rand(20, 100);
         for ($i = 0; $i < $numFiles; $i++) {
             $files['file' . $i . '.txt'] = CryptoUtil::randomBytes(255);
         }
 
-        $methods = [ZipEntry::METHOD_STORED, ZipEntry::METHOD_DEFLATED];
+        $methods = array(ZipEntry::METHOD_STORED, ZipEntry::METHOD_DEFLATED);
         if (extension_loaded("bz2")) {
             $methods[] = ZipEntry::METHOD_BZIP2;
         }
