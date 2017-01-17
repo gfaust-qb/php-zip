@@ -1,4 +1,5 @@
 <?php
+require 'ZipTestCase.php';
 namespace PhpZip;
 
 use PhpZip\Exception\ZipAuthenticationException;
